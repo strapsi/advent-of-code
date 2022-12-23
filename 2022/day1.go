@@ -13,13 +13,21 @@ func main() {
 		panic("could not read file")
 	}
 	lines := strings.Split(string(fileBytes), "\n")
-	mostCalories := 0
+	mostCalories := [3]int{0, 0, 0}
 	currentCalories := 0
 
 	for _, line := range lines {
 		if len(line) == 0 {
-			if currentCalories > mostCalories {
-				mostCalories = currentCalories
+			if currentCalories > mostCalories[2] {
+				mostCalories[2] = currentCalories
+				if currentCalories > mostCalories[1] {
+					mostCalories[2] = mostCalories[1]
+					mostCalories[1] = currentCalories
+					if currentCalories > mostCalories[0] {
+						mostCalories[1] = mostCalories[0]
+						mostCalories[0] = currentCalories
+					}
+				}
 			}
 			currentCalories = 0
 		} else {
@@ -30,6 +38,5 @@ func main() {
 			currentCalories += calories
 		}
 	}
-
-	fmt.Println(mostCalories)
+	fmt.Println(mostCalories[0] + mostCalories[1] + mostCalories[2])
 }
