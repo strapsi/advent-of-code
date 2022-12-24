@@ -1,5 +1,5 @@
 fun main(args: Array<String>) {
-    val chunks = "__BXCYAZAXBYCZCXAYBZ".chunked(2)
+    val chunks = "__BXCXAXAYBYCYCZAZBZ".chunked(2)
     args
         .asSequence()
         .map { it.replace(" ", "") }
