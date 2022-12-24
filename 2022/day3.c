@@ -6,7 +6,9 @@ int main(void)
 {
     FILE *f;
 
-    char *line = NULL;
+    char *fline = NULL;
+    char *sline = NULL;
+    char *tline = NULL;
     size_t len = 0;
     ssize_t read;
 
@@ -16,37 +18,37 @@ int main(void)
         return 1;
 
     int prio = 0;
-    while ((read = getline(&line, &len, f)) != -1)
+    getline(&fline, &len, f);
+    getline(&sline, &len, f);
+    read = getline(&tline, &len, f);
+
+    while (read != -1)
     {
-        int str_len = strlen(line);
-        int former_len = str_len / 2;
-        int latter_len = str_len - former_len;
-        char *former = malloc(former_len + 1);
-        char *latter = malloc(latter_len + 1);
-        memcpy(former, line, former_len);
-        memcpy(latter, line + former_len, latter_len);
-        former[former_len] = '\0';
-        latter[latter_len] = '\0';
-        for (int i = 0; i < former_len; i++)
+        for (int i = 0; i < strlen(fline); i++)
         {
-            if (strchr(latter, former[i]) != NULL)
+            if (strchr(sline, fline[i]) != NULL && strchr(tline, fline[i]))
             {
-                if (former[i] > 96)
-                    prio += (former[i] - 96);
+                if (fline[i] > 96)
+                    prio += (fline[i] - 96);
                 else
-                    prio += (former[i] - 38);
+                    prio += (fline[i] - 38);
                 break;
             }
         }
 
-        free(former);
-        free(latter);
+        getline(&fline, &len, f);
+        getline(&sline, &len, f);
+        read = getline(&tline, &len, f);
     }
     fclose(f);
 
     printf("the solution is %d\n", prio);
 
-    if (line)
-        free(line);
+    if (fline)
+        free(fline);
+    if (sline)
+        free(sline);
+    if (tline)
+        free(tline);
     return 0;
 }
