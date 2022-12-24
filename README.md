@@ -13,3 +13,8 @@ java -jar day*.jar (cat inputs/day*)
 ```shell
 gcc day*.c -o day* && ./day*
 ```
+
+### bash
+```shell
+bash day*.sh
+```
